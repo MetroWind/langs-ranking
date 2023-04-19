@@ -63,6 +63,21 @@ body
                "Helvetica Neue", sans-serif;
 }
 
+a.Button
+{
+    background-color: #ff4757;
+    padding: 0.5em;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+}
+
+a.Button:hover
+{
+    background-color: white;
+    color: #ff4757;
+}
+
 #Content
 {
     margin: 64px auto 32px auto;
@@ -115,4 +130,10 @@ h1
     vertical-align: middle;
     height: 47px;
     line-height: 47px;
+}
+
+.ButtonLine
+{
+    margin-top: 2em;
+    margin-bottom: 2em;
 }

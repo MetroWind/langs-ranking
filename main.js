@@ -156,7 +156,7 @@ function registerChangeListeners()
 {
     document.querySelectorAll('.Cell input[type="text"]').forEach((node, i) => {
         node.addEventListener("change", (_) => {
-            var langs = window.localStorage.getItem("langs");
+            var langs = JSON.parse(window.localStorage.getItem("langs"));
             if(node.value === "")
             {
                 langs[i] = null;
@@ -165,14 +165,14 @@ function registerChangeListeners()
             {
                 langs[i] = node.value;
             }
-            window.localStorage.setItem("langs", langs);
+            window.localStorage.setItem("langs", JSON.stringify(langs));
         });
     });
 }
 
 function initLangs()
 {
-    var langs = window.localStorage.getItem("langs");
+    var langs = JSON.parse(window.localStorage.getItem("langs"));
     const inputs = document.querySelectorAll('.Cell input[type="text"]');
     if(langs === null)
     {
@@ -181,7 +181,7 @@ function initLangs()
         {
             langs[i] = null;
         }
-        window.localStorage.setItem("langs", langs);
+        window.localStorage.setItem("langs", JSON.stringify(langs));
     }
     else
     {
