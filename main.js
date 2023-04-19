@@ -216,7 +216,16 @@ function initLangs()
     }
 }
 
-const Button = document.querySelector("a#BtnGenImage");
-Button.addEventListener("click", draw);
+function reset()
+{
+    document.querySelectorAll('.Cell input[type="text"]').forEach((node) => {
+        node.value = "";
+    });
+    window.localStorage.removeItem("langs");
+    initLangs();
+}
+
+document.querySelector("a#BtnGenImage").addEventListener("click", draw);
+document.querySelector("a#BtnClear").addEventListener("click", reset);
 registerChangeListeners();
 initLangs();
