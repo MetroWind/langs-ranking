@@ -87,7 +87,7 @@ a.Button:hover
 h1
 {
     font-size: 200%;
-    margin: 32px 0px 32px 0px;
+    margin: 64px 0px 64px 0px;
 }
 
 #Subtitle
@@ -136,4 +136,14 @@ h1
 {
     margin-top: 2em;
     margin-bottom: 2em;
+}
+
+#BtnClearWrapper
+{
+    float: right;
+}
+
+footer
+{
+    font-size: 80%;
 }

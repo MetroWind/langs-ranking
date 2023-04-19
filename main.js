@@ -35,7 +35,7 @@ class SVG
         // This bug requires the SVG to have explicit width and
         // height: https://bugzilla.mozilla.org/show_bug.cgi?id=700533
         return `
-<svg viewBox="0 0 1000 800" width="${this.total_width}" height="800" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="-20 0 ${this.total_width + 40} 840" width="${this.total_width + 40}" height="840" xmlns="http://www.w3.org/2000/svg">
   <style>
     <![CDATA[
 ${style}
@@ -52,8 +52,8 @@ ${body_nodes}
 
     #svgTitle(title, subtitle)
     {
-        return `<text x="500" y="68" font-size="36" text-anchor="middle" fill="black">${title}</text>
-<text x="500" y="80" font-size="18" text-anchor="middle" fill="black">${subtitle}</text>`;
+        return `<text lang="zh-CN" x="${this.total_width/2}" y="100" font-size="36" text-anchor="middle">${title}</text>
+<text lang="zh-CN" x="${this.total_width/2}" y="140" text-anchor="middle">${subtitle}</text>`;
     }
 
     #svgTable()
@@ -62,7 +62,7 @@ ${body_nodes}
         for(let i = 0; i < this.labels.length; i++)
         {
             let x = (this.cell_width + this.gap) * (i % this.columns);
-            let y = (this.cell_height + this.gap) * Math.floor(i / this.columns) + 100;
+            let y = (this.cell_height + this.gap) * Math.floor(i / this.columns) + 170;
             result += `<g>
   <mask id="Mask${i}">
     <rect class="Cell" x="${x}" y="${y}" />
@@ -70,7 +70,7 @@ ${body_nodes}
   <rect class="Cell" x="${x}" y="${y}" />
   <text class="Lang" x="${x + this.cell_width / 2}" y="${y + 64.4} " text-anchor="middle" fill="black" mask="url(#Mask${i})">
 ${this.langs[i]}</text>
-  <text class="Label" x="${x + this.cell_width / 2}" y="${y + this.cell_height - 14} " text-anchor="middle" fill="black">
+  <text lang="zh-CN" class="Label" x="${x + this.cell_width / 2}" y="${y + this.cell_height - 14} " text-anchor="middle" fill="black">
 ${this.labels[i]}
   </text>
 </g>`
@@ -80,7 +80,7 @@ ${this.labels[i]}
 
     #svgFooter()
     {
-        return '<text id="Footer">footer</text>';
+        return `<text lang="zh-CN" id="Footer" x="${this.total_width / 2}" y="810" text-anchor="middle" font-size="15">代码：https://github.com/MetroWind/langs-ranking</text>`;
     }
 
     #svgStyle()
@@ -90,6 +90,11 @@ ${this.labels[i]}
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                Roboto, Oxygen-Sans, Ubuntu, Cantarell,
                "Helvetica Neue", sans-serif;
+    fill: black;
+}
+
+text.Label
+{
     font-size: 18px;
 }
 
@@ -113,7 +118,7 @@ fill: #eee;
         return this.#svg(
             this.#svgStyle(),
             this.#svgBody(
-                this.#svgTitle("编程语言喜好表", "aaa"),
+                this.#svgTitle("编程语言喜好表", "🔗 https://mws.rocks/lang-ranks/"),
                 this.#svgTable(),
                 this.#svgFooter()))
     }
@@ -125,7 +130,7 @@ function getLangs()
     document.querySelectorAll('.Cell input[type="text"]').forEach((node) => {
         if(node.value === "")
         {
-            result.push(null);
+            result.push("C++");
         }
         else
         {
@@ -141,12 +146,19 @@ function draw()
     let svg_str = svg.generate();
     console.log(svg_str);
 
-    const canvas = document.querySelector("#Test");
-    const ctx = canvas.getContext("2d");
     let img = new Image();
     img.onload = function() {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.drawImage(img, 0, 0);
-        // document.querySelector("#ImgTest").innerHTML = svg_str;
+        const link = document.createElement("a");
+        link.setAttribute('download', 'lang-ranking.png');
+        link.setAttribute('href', canvas.toDataURL("image/png"));
+        link.click();
     };
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg_str);
 
