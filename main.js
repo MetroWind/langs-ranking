@@ -118,7 +118,7 @@ fill: #eee;
         return this.#svg(
             this.#svgStyle(),
             this.#svgBody(
-                this.#svgTitle("编程语言喜好表", "🔗 https://mws.rocks/lang-ranks/"),
+                this.#svgTitle("编程语言喜好表", "🔗 http://mws.rocks/lang-ranks/"),
                 this.#svgTable(),
                 this.#svgFooter()))
     }
